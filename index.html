@@ -4,20 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Tashi Show</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            darkMode: 'media', // This enables system preference-based dark mode
+            darkMode: 'media', 
             theme: {
                 extend: {
                     colors: {
-                        'primary-blue': '#004BAC', // Your primary brand color
-                        'primary-blue-dark': '#003B8A', // A darker shade for hover effects
+                        'primary-blue': '#004BAC', 
+                        'primary-blue-dark': '#003B8A', 
                         'secondary-blue-light': '#F0F4F8',
                         'text-dark': '#1F2937',
                         'text-light': '#FFFFFF',
-                        // Dark mode colors
                         'dark-bg': '#111827',
                         'dark-card': '#1F2937',
                         'dark-text': '#F3F4F6',
@@ -35,17 +34,31 @@
                           '0%': { 'background-position': '0% 50%' },
                           '50%': { 'background-position': '100% 50%' },
                           '100%': { 'background-position': '0% 50%' },
+                        },
+                        scroll: {
+                          '0%': { transform: 'translateX(0)' },
+                          '100%': { transform: 'translateX(-100%)' },
                         }
                     },
                     animation: {
                         float: 'float 6s ease-in-out infinite',
                         gradient: 'gradient 10s ease infinite',
+                        scroll: 'scroll 35s linear infinite',
                     }
                 }
             }
         }
     </script>
     <style>
+        /* Custom Microphone Cursor */
+        body {
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='%23004BAC' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z'%3E%3C/path%3E%3Cpath d='M19 10v2a7 7 0 0 1-14 0v-2'%3E%3C/path%3E%3Cline x1='12' y1='19' x2='12' y2='23'%3E%3C/line%3E%3Cline x1='8' y1='23' x2='16' y2='23'%3E%3C/line%3E%3C/svg%3E") 16 16, auto;
+        }
+        
+        a, button, input, select, textarea {
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='%23004BAC' stroke='%23004BAC' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z'%3E%3C/path%3E%3Cpath d='M19 10v2a7 7 0 0 1-14 0v-2'%3E%3C/path%3E%3Cline x1='12' y1='19' x2='12' y2='23'%3E%3C/line%3E%3Cline x1='8' y1='23' x2='16' y2='23'%3E%3C/line%3E%3C/svg%3E") 16 16, pointer;
+        }
+
         .fade-in-section {
             opacity: 0;
             transform: translateY(20px);
@@ -62,41 +75,67 @@
             background-size: 200% 200%;
             animation: gradient 10s ease infinite;
         }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        /* Custom Toggle Switch */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #004BAC;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #004BAC;
+        }
     </style>
 </head>
 <body class="bg-secondary-blue-light text-text-dark font-sans dark:bg-dark-bg dark:text-dark-text">
 
-    <!-- Header --><header id="header" class="bg-white/80 backdrop-blur-lg shadow-md sticky top-0 z-50 transition-all duration-300 dark:bg-dark-card/80 dark:border-b dark:border-gray-700">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="flex items-center gap-4">
-                <img src="https://raw.githubusercontent.com/Sarup098/tts/main/tahi%20dp.jpg" alt="The Tashi Show Logo" class="h-14 w-14 rounded-full border-2 border-primary-blue object-cover">
-                <span class="text-xl md:text-2xl font-extrabold text-primary-blue tracking-tight">The Tashi Show</span>
+    <!-- Cleaner Header -->
+    <header id="header" class="bg-white sticky top-0 z-50 transition-all duration-300 border-b border-gray-100 dark:bg-dark-card dark:border-gray-800">
+        <div class="container mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="relative overflow-hidden rounded-full w-10 h-10 md:w-12 md:h-12 border-2 border-transparent group-hover:border-primary-blue transition-all duration-300">
+                     <img src="https://raw.githubusercontent.com/Sarup098/tts/main/tahi%20dp.jpg" alt="The Tashi Show Logo" class="object-cover w-full h-full">
+                </div>
+                <span class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white tracking-tight group-hover:text-primary-blue transition-colors">The Tashi Show</span>
             </a>
-            <nav class="hidden md:flex items-center gap-6">
-                <a href="#about" class="text-gray-600 hover:text-primary-blue font-semibold transition-colors duration-300 dark:text-dark-subtext dark:hover:text-white">About</a>
-                <a href="#clips" class="text-gray-600 hover:text-primary-blue font-semibold transition-colors duration-300 dark:text-dark-subtext dark:hover:text-white">Clips</a>
-                <a href="#contact" class="text-gray-600 hover:text-primary-blue font-semibold transition-colors duration-300 dark:text-dark-subtext dark:hover:text-white">Contact</a>
-                <a href="https://www.youtube.com/@TashiTseten-Lepcha/videos" target="_blank" rel="noopener noreferrer" class="bg-primary-blue text-white font-bold py-2 px-5 rounded-lg hover:bg-primary-blue-dark transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl shadow-primary-blue/30">
-                    All Episodes
+            
+            <nav class="hidden md:flex items-center gap-8">
+                <a href="#gallery" class="text-sm font-medium text-gray-600 hover:text-primary-blue transition-colors dark:text-gray-300 dark:hover:text-white">Mayal Lyang</a>
+                <a href="#clips" class="text-sm font-medium text-gray-600 hover:text-primary-blue transition-colors dark:text-gray-300 dark:hover:text-white">Clips</a>
+                <a href="#contact" class="text-sm font-medium text-gray-600 hover:text-primary-blue transition-colors dark:text-gray-300 dark:hover:text-white">Contact</a>
+                <a href="#about" class="text-sm font-medium text-gray-600 hover:text-primary-blue transition-colors dark:text-gray-300 dark:hover:text-white">About</a>
+                <a href="https://www.youtube.com/@TashiTseten-Lepcha/videos" target="_blank" rel="noopener noreferrer" class="bg-primary-blue text-white text-sm font-semibold py-2.5 px-6 rounded-full hover:bg-primary-blue-dark transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                    Watch Now
                 </a>
             </nav>
-            <!-- Mobile Menu Button --><button id="mobile-menu-button" class="md:hidden text-text-dark dark:text-dark-text z-10">
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden text-gray-700 dark:text-gray-200 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
             </button>
         </div>
-        <!-- Mobile Menu --><div id="mobile-menu" class="hidden md:hidden px-6 pb-4 dark:bg-dark-card">
-            <a href="#about" class="block py-2 text-gray-600 hover:text-primary-blue font-semibold dark:text-dark-subtext dark:hover:text-white">About</a>
-            <a href="#clips" class="block py-2 text-gray-600 hover:text-primary-blue font-semibold dark:text-dark-subtext dark:hover:text-white">Clips</a>
-            <a href="#contact" class="block py-2 text-gray-600 hover:text-primary-blue font-semibold dark:text-dark-subtext dark:hover:text-white">Contact</a>
-            <a href="https://www.youtube.com/@TashiTseten-Lepcha/videos" target="_blank" rel="noopener noreferrer" class="block mt-2 bg-primary-blue text-white font-bold py-2 px-5 rounded-lg text-center hover:bg-primary-blue-dark">
-                All Episodes
-            </a>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-6 bg-white border-t border-gray-100 dark:bg-dark-card dark:border-gray-800 absolute w-full shadow-lg">
+            <div class="flex flex-col space-y-4 pt-4">
+                <a href="#gallery" class="text-gray-600 font-medium hover:text-primary-blue dark:text-gray-300">Mayal Lyang</a>
+                <a href="#clips" class="text-gray-600 font-medium hover:text-primary-blue dark:text-gray-300">Clips</a>
+                <a href="#contact" class="text-gray-600 font-medium hover:text-primary-blue dark:text-gray-300">Contact</a>
+                <a href="#about" class="text-gray-600 font-medium hover:text-primary-blue dark:text-gray-300">About</a>
+                <a href="https://www.youtube.com/@TashiTseten-Lepcha/videos" class="text-primary-blue font-bold">Watch All Episodes &rarr;</a>
+            </div>
         </div>
     </header>
 
     <main class="container mx-auto px-6 py-8">
 
-        <!-- Hero Section --><section class="flex flex-col-reverse lg:flex-row items-center gap-8 lg:gap-16 bg-white dark:bg-dark-card p-8 lg:p-12 rounded-2xl shadow-xl my-8 overflow-hidden">
+        <!-- Hero Section -->
+        <section class="flex flex-col-reverse lg:flex-row items-center gap-8 lg:gap-16 bg-white dark:bg-dark-card p-8 lg:p-12 rounded-2xl shadow-xl my-8 overflow-hidden">
             <div class="lg:w-1/2 text-center lg:text-left">
                 <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-text-dark dark:text-dark-text leading-tight mb-5">
                     Welcome to <span class="gradient-text">The Tashi Show</span>
@@ -104,8 +143,8 @@
                 <p class="text-lg text-gray-600 dark:text-dark-subtext mb-8 max-w-lg mx-auto lg:mx-0">
                     Conversations from the heart. Stories from the roots.
                 </p>
-                <a href="https://www.youtube.com/@TashiTseten-Lepcha/videos" target="_blank" rel="noopener noreferrer" class="inline-block bg-primary-blue text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-primary-blue-dark transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl shadow-primary-blue/40">
-                    Tune In Now
+                <a href="#clips" class="inline-block bg-primary-blue text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-primary-blue-dark transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl shadow-primary-blue/40">
+                    Start Watching
                 </a>
             </div>
             <div class="lg:w-1/2 flex justify-center p-4">
@@ -113,28 +152,44 @@
             </div>
         </section>
 
-        <!-- About Section --><section id="about" class="text-center bg-white dark:bg-dark-card p-8 lg:p-16 rounded-2xl shadow-xl my-16 fade-in-section">
-            <h2 class="text-3xl lg:text-4xl font-bold text-text-dark dark:text-dark-text mb-6">About Me</h2>
-            <p class="max-w-3xl mx-auto text-gray-700 dark:text-dark-subtext leading-relaxed text-lg mb-10">
-               Tashi Tseten Lepcha
-Podcaster • Science Student • Storyteller from Dzongu
-
-I’m Tashi Tseten Lepcha, a podcaster and content creator from Lum, Dzongu, with a deep respect for stories, culture, and ideas that shape who we are. Through my work, I try to create thoughtful conversations—especially around history, identity, and lived experiences—while learning from the people and voices I encounter along the way.
-
-I’m grateful to have a growing community of listeners and viewers, with 3.2K+ subscribers on YouTube, 16K followers on Facebook, and 3K on Instagram. Their support keeps me motivated to listen more carefully and share more responsibly.
-
-Alongside content creation, I’m pursuing a Master of Science (Physics Honours), navigating the world of equations while staying rooted in storytelling. Born on 11 January 2003, I believe curiosity is my greatest strength—whether I’m exploring the laws of nature or helping preserve voices that deserve to be heard.
+        <!-- Gallery / Infinite Scroll Section -->
+        <section id="gallery" class="my-16 fade-in-section">
+            <h2 class="text-3xl lg:text-4xl font-bold text-text-dark dark:text-dark-text text-center mb-8">Mayal Lyang</h2>
+            <div class="w-full inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)] py-8">
+                <!-- Scroll Content 1 -->
+                <ul class="flex items-center justify-center md:justify-start [&_li]:mx-4 [&_img]:max-w-none animate-scroll">
+                    <li><div class="w-64 h-80 rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-gray-700"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-12.jpg" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div></li>
+                    <li><div class="w-64 h-80 rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-gray-700"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-13%202.jpg" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div></li>
+                    <li><div class="w-64 h-80 rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-gray-700"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-13%203.jpg" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div></li>
+                    <li><div class="w-64 h-80 rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-gray-700"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-13.jpg" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div></li>
+                    <li><div class="w-64 h-80 rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-gray-700"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-14%202.jpg" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div></li>
+                    <li><div class="w-64 h-80 rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-gray-700"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-14%203.jpg" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div></li>
+                    <li><div class="w-64 h-80 rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-gray-700"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-14.jpg" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div></li>
+                </ul>
+                <!-- Scroll Content 2 -->
+                <ul class="flex items-center justify-center md:justify-start [&_li]:mx-4 [&_img]:max-w-none animate-scroll" aria-hidden="true">
+                     <li><div class="w-64 h-80 rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-gray-700"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-12.jpg" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div></li>
+                    <li><div class="w-64 h-80 rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-gray-700"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-13%202.jpg" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div></li>
+                    <li><div class="w-64 h-80 rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-gray-700"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-13%203.jpg" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div></li>
+                    <li><div class="w-64 h-80 rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-gray-700"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-13.jpg" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div></li>
+                    <li><div class="w-64 h-80 rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-gray-700"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-14%202.jpg" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div></li>
+                    <li><div class="w-64 h-80 rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-gray-700"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-14%203.jpg" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div></li>
+                    <li><div class="w-64 h-80 rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-gray-700"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-14.jpg" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div></li>
+                </ul>
+            </div>
         </section>
 
-        <!-- Featured Clips Section --><section id="clips" class="my-16 fade-in-section">
+        <!-- Featured Clips Section with FIXED Aspect Ratios -->
+        <section id="clips" class="my-16 fade-in-section">
             <h2 class="text-3xl lg:text-4xl font-bold text-text-dark dark:text-dark-text text-center mb-12">Featured Clips</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
-                <!-- Clip 1 --><div class="bg-white dark:bg-dark-card rounded-2xl shadow-xl overflow-hidden transition-all duration-300 group hover:shadow-2xl hover:-translate-y-2">
-                    <div class="aspect-w-16 aspect-h-9 overflow-hidden">
-                        <iframe class="w-full h-full transition-transform duration-300 group-hover:scale-105" src="https://www.youtube.com/embed/F3VRPQRegRI" title="Sikkim's Dark History | The Truth About Darjeeling | Ren Sonam Wangdi |TTS 14" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <!-- Clip 1 -->
+                <div class="bg-white dark:bg-dark-card rounded-2xl shadow-xl overflow-hidden transition-all duration-300 group hover:shadow-2xl hover:-translate-y-2">
+                    <div class="relative w-full pt-[56.25%] overflow-hidden bg-gray-200">
+                        <iframe class="absolute top-0 left-0 w-full h-full transition-transform duration-300 group-hover:scale-105" src="https://www.youtube.com/embed/F3VRPQRegRI" title="Sikkim's Dark History" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                     <div class="p-6">
-                        <h3 class="font-bold text-lg text-text-dark dark:text-dark-text">
+                        <h3 class="font-bold text-lg text-text-dark dark:text-dark-text leading-tight">
                             <a href="https://youtu.be/F3VRPQRegRI" target="_blank" rel="noopener noreferrer" class="group-hover:text-primary-blue transition-colors duration-300">
                                 Sikkim's Dark History | The Truth About Darjeeling | Ren Sonam Wangdi |TTS 14
                             </a>
@@ -142,13 +197,14 @@ Alongside content creation, I’m pursuing a Master of Science (Physics Honours)
                     </div>
                 </div>
 
-                <!-- Clip 2 --><div class="bg-white dark:bg-dark-card rounded-2xl shadow-xl overflow-hidden transition-all duration-300 group hover:shadow-2xl hover:-translate-y-2">
-                    <div class="aspect-w-16 aspect-h-9 overflow-hidden">
-                        <iframe class="w-full h-full transition-transform duration-300 group-hover:scale-105" src="https://www.youtube.com/embed/JM3z5HxO8rQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <!-- Clip 2 (Replaced Broken Link) -->
+                <div class="bg-white dark:bg-dark-card rounded-2xl shadow-xl overflow-hidden transition-all duration-300 group hover:shadow-2xl hover:-translate-y-2">
+                    <div class="relative w-full pt-[56.25%] overflow-hidden bg-gray-200">
+                        <iframe class="absolute top-0 left-0 w-full h-full transition-transform duration-300 group-hover:scale-105" src="https://www.youtube.com/embed/F3VRPQRegRI" title="Featured Episode" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                     <div class="p-6">
-                        <h3 class="font-bold text-lg text-text-dark dark:text-dark-text">
-                            <a href="https://youtu.be/JM3z5HxO8rQ" target="_blank" rel="noopener noreferrer" class="group-hover:text-primary-blue transition-colors duration-300">
+                        <h3 class="font-bold text-lg text-text-dark dark:text-dark-text leading-tight">
+                            <a href="https://youtu.be/F3VRPQRegRI" target="_blank" rel="noopener noreferrer" class="group-hover:text-primary-blue transition-colors duration-300">
                                 Featured Episode
                             </a>
                         </h3>
@@ -157,11 +213,11 @@ Alongside content creation, I’m pursuing a Master of Science (Physics Honours)
 
                 <!-- Clip 3 -->
                 <div class="bg-white dark:bg-dark-card rounded-2xl shadow-xl overflow-hidden transition-all duration-300 group hover:shadow-2xl hover:-translate-y-2">
-                    <div class="aspect-w-16 aspect-h-9 overflow-hidden">
-                        <iframe class="w-full h-full transition-transform duration-300 group-hover:scale-105" src="https://www.youtube.com/embed/RDGXBSPK8L4" title="The REAL Story Behind Sikkim's MLA Mr. Erung Tenzing Lepcha | TTS 17" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <div class="relative w-full pt-[56.25%] overflow-hidden bg-gray-200">
+                        <iframe class="absolute top-0 left-0 w-full h-full transition-transform duration-300 group-hover:scale-105" src="https://www.youtube.com/embed/RDGXBSPK8L4" title="The REAL Story" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                     <div class="p-6">
-                        <h3 class="font-bold text-lg text-text-dark dark:text-dark-text">
+                        <h3 class="font-bold text-lg text-text-dark dark:text-dark-text leading-tight">
                             <a href="https://youtu.be/RDGXBSPK8L4" target="_blank" rel="noopener noreferrer" class="group-hover:text-primary-blue transition-colors duration-300">
                                 The REAL Story Behind Sikkim's MLA Mr. Erung Tenzing Lepcha | TTS 17
                             </a>
@@ -171,11 +227,11 @@ Alongside content creation, I’m pursuing a Master of Science (Physics Honours)
 
                 <!-- Clip 4 -->
                 <div class="bg-white dark:bg-dark-card rounded-2xl shadow-xl overflow-hidden transition-all duration-300 group hover:shadow-2xl hover:-translate-y-2">
-                    <div class="aspect-w-16 aspect-h-9 overflow-hidden">
-                        <iframe class="w-full h-full transition-transform duration-300 group-hover:scale-105" src="https://www.youtube.com/embed/WHuKhc4vLXA" title="This Himalayan Hero Changed Thousands of Lives Forever | Miss Keepu Tshering Lepcha| TTS 13" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <div class="relative w-full pt-[56.25%] overflow-hidden bg-gray-200">
+                        <iframe class="absolute top-0 left-0 w-full h-full transition-transform duration-300 group-hover:scale-105" src="https://www.youtube.com/embed/WHuKhc4vLXA" title="Himalayan Hero" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                     <div class="p-6">
-                        <h3 class="font-bold text-lg text-text-dark dark:text-dark-text">
+                        <h3 class="font-bold text-lg text-text-dark dark:text-dark-text leading-tight">
                             <a href="https://youtu.be/WHuKhc4vLXA" target="_blank" rel="noopener noreferrer" class="group-hover:text-primary-blue transition-colors duration-300">
                                 This Himalayan Hero Changed Thousands of Lives Forever | Miss Keepu Tshering Lepcha| TTS 13
                             </a>
@@ -185,7 +241,8 @@ Alongside content creation, I’m pursuing a Master of Science (Physics Honours)
             </div>
         </section>
 
-        <!-- CTA Section --><section class="text-center bg-gradient-to-br from-primary-blue to-primary-blue-dark text-white p-8 lg:p-16 rounded-2xl shadow-2xl my-16 fade-in-section">
+        <!-- CTA Section -->
+        <section class="text-center bg-gradient-to-br from-primary-blue to-primary-blue-dark text-white p-8 lg:p-16 rounded-2xl shadow-2xl my-16 fade-in-section">
             <h2 class="text-3xl lg:text-4xl font-bold mb-4">Explore All Episodes</h2>
             <p class="max-w-2xl mx-auto text-lg opacity-90 mb-8">
                 Don't miss out. Visit our YouTube channel to watch all episodes from one of the best individual podcasts in Sikkim.
@@ -195,65 +252,129 @@ Alongside content creation, I’m pursuing a Master of Science (Physics Honours)
             </a>
         </section>
         
-        <!-- Contact Section --><section id="contact" class="my-16 fade-in-section">
-            <div class="bg-white dark:bg-dark-card p-8 lg:p-16 rounded-2xl shadow-xl">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-                    <div class="text-center lg:text-left">
-                        <h2 class="text-3xl lg:text-4xl font-bold text-text-dark dark:text-dark-text mb-4">Let's Connect!</h2>
-                        <p class="text-gray-700 dark:text-dark-subtext leading-relaxed text-lg mb-6">
-                            Have a story to share? An idea for a guest? Or just want to talk about the latest episode? I'd love to hear from you. The Tashi Show is a community, and your voice matters.
-                        </p>
-                        <p class="font-semibold text-gray-600 dark:text-dark-subtext">Drop a message and let's start a conversation.</p>
-                    </div>
-                    <div class="flex flex-col items-center gap-5">
-                        <input type="text" id="userNameInput" placeholder="Please enter your name" class="w-full max-w-sm px-4 py-3 bg-secondary-blue-light dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400 border border-gray-300 rounded-lg text-lg text-center focus:ring-2 focus:ring-primary-blue focus:outline-none transition-all duration-300 shadow-sm" />
-                        <a id="whatsappLink" href="#" target="_blank" rel="noopener noreferrer" class="w-full max-w-sm inline-flex items-center justify-center bg-primary-blue text-white font-bold py-4 px-8 rounded-lg text-lg hover:bg-primary-blue-dark transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl shadow-primary-blue/30">
-                            Chat on WhatsApp
-                        </a>
+        <!-- Contact Section -->
+        <section id="contact" class="my-16 fade-in-section">
+            <div class="bg-white dark:bg-dark-card p-8 lg:p-12 rounded-2xl shadow-xl max-w-5xl mx-auto">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl lg:text-4xl font-bold text-text-dark dark:text-dark-text mb-3">Get Involved</h2>
+                    <p class="text-gray-600 dark:text-dark-subtext">Choose how you'd like to connect with The Tashi Show.</p>
+                </div>
+
+                <!-- Purpose Switcher -->
+                <div class="flex justify-center mb-8">
+                    <div class="bg-gray-100 dark:bg-gray-800 p-1.5 rounded-xl inline-flex relative shadow-inner">
+                        <button id="btn-general" class="px-6 py-2.5 rounded-lg text-sm font-bold transition-all duration-300 bg-white text-primary-blue shadow-sm z-10 w-40">General Message</button>
+                        <button id="btn-guest" class="px-6 py-2.5 rounded-lg text-sm font-bold text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-all duration-300 z-10 w-40">Be a Guest</button>
                     </div>
                 </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+                    <!-- Text Side -->
+                    <div class="hidden md:block">
+                        <div id="text-general" class="transition-all duration-300">
+                            <h3 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Say Hello!</h3>
+                            <p class="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                                Want to talk about the latest episode? Have a suggestion for a future topic? Or just want to send some love? We love hearing from our listeners.
+                            </p>
+                            <div class="p-4 bg-secondary-blue-light dark:bg-gray-800 rounded-lg border-l-4 border-primary-blue">
+                                <p class="text-sm font-medium italic text-gray-700 dark:text-gray-300">"Stories are the bridge between you and me."</p>
+                            </div>
+                        </div>
+                        <div id="text-guest" class="hidden transition-all duration-300">
+                            <h3 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Share Your Story</h3>
+                            <p class="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                                Do you have a unique perspective on Sikkim's history, culture, or modern life? We are always looking for voices that need to be heard.
+                            </p>
+                            <ul class="space-y-2 mb-4">
+                                <li class="flex items-center text-sm text-gray-600 dark:text-gray-400">
+                                    <svg class="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    Share your lived experiences
+                                </li>
+                                <li class="flex items-center text-sm text-gray-600 dark:text-gray-400">
+                                    <svg class="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    Highlight community issues
+                                </li>
+                                <li class="flex items-center text-sm text-gray-600 dark:text-gray-400">
+                                    <svg class="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    Inspire the next generation
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Form Side -->
+                    <form id="contactForm" class="flex flex-col gap-4">
+                        <div>
+                            <label for="userNameInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Your Name</label>
+                            <input type="text" id="userNameInput" placeholder="Enter your name" class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-blue focus:border-transparent outline-none transition-all" required />
+                        </div>
+
+                        <!-- Extra Field for Guest (Hidden by default) -->
+                        <div id="guest-topic-field" class="hidden">
+                            <label for="topicInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">What would you like to talk about?</label>
+                            <input type="text" id="topicInput" placeholder="E.g., History of Dzongu, Local Art..." class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-blue focus:border-transparent outline-none transition-all" />
+                        </div>
+                        
+                        <!-- General Message Field -->
+                        <div id="general-msg-field">
+                            <label for="messageInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Message</label>
+                            <textarea id="messageInput" rows="3" placeholder="Type your message here..." class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-blue focus:border-transparent outline-none transition-all"></textarea>
+                        </div>
+
+                        <button type="submit" class="mt-2 w-full flex items-center justify-center gap-2 bg-green-500 text-white font-bold py-3.5 px-6 rounded-lg text-lg hover:bg-green-600 transition-all duration-300 shadow-lg hover:shadow-green-500/30 transform hover:-translate-y-1">
+                            Send via WhatsApp
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section (Moved to Bottom) -->
+        <section id="about" class="text-center bg-white dark:bg-dark-card p-8 lg:p-16 rounded-2xl shadow-xl my-16 fade-in-section">
+            <h2 class="text-3xl lg:text-4xl font-bold text-text-dark dark:text-dark-text mb-6">About Me</h2>
+            <div class="max-w-3xl mx-auto text-gray-700 dark:text-dark-subtext leading-relaxed text-lg mb-10 space-y-4">
+                <p class="font-bold text-primary-blue text-xl">Tashi Tseten Lepcha</p>
+                <p class="font-semibold text-sm uppercase tracking-wide opacity-70">Podcaster • Science Student • Storyteller from Dzongu</p>
+                <p>
+                    I’m Tashi Tseten Lepcha, a podcaster and content creator from Lum, Dzongu, with a deep respect for stories, culture, and ideas that shape who we are. Through my work, I try to create thoughtful conversations—especially around history, identity, and lived experiences—while learning from the people and voices I encounter along the way.
+                </p>
+                <p>
+                    I’m grateful to have a growing community of listeners and viewers, with 3.2K+ subscribers on YouTube, 16K followers on Facebook, and 3K on Instagram. Their support keeps me motivated to listen more carefully and share more responsibly.
+                </p>
             </div>
         </section>
 
     </main>
 
-    <!-- Footer --><footer class="bg-text-dark text-white text-center py-8 dark:bg-gray-900">
-        <p class="font-semibold">&copy; 2025 The Tashi Show. All rights reserved.</p>
-        <div class="flex justify-center items-center gap-2 mt-4">
-          
-        </div>
+    <!-- Footer -->
+    <footer class="bg-gray-50 border-t border-gray-200 dark:bg-dark-card dark:border-gray-800 text-center py-8">
+        <p class="font-semibold text-gray-600 dark:text-gray-400">&copy; 2026 The Tashi Show. All rights reserved.</p>
     </footer>
 
     <script>
-        // --- Dynamic Header on Scroll ---
+        // --- Dynamic Header Shadow on Scroll ---
         const header = document.getElementById('header');
         window.onscroll = function() {
-            if (window.scrollY > 50) {
-                header.classList.add('shadow-xl');
+            if (window.scrollY > 20) {
+                header.classList.add('shadow-md');
             } else {
-                header.classList.remove('shadow-xl');
+                header.classList.remove('shadow-md');
             }
         };
 
         // --- Mobile Menu Toggle ---
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
-
         mobileMenuButton.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
         });
-        
-        document.querySelectorAll('#mobile-menu a, nav a[href^="#"]').forEach(link => {
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
             link.addEventListener('click', () => {
-                setTimeout(() => {
-                     if (!mobileMenu.classList.contains('hidden')) {
-                        mobileMenu.classList.add('hidden');
-                    }
-                }, 100);
+                mobileMenu.classList.add('hidden');
             });
         });
 
-        // --- Scroll Animations for Sections ---
+        // --- Fade In Animation ---
         const sections = document.querySelectorAll('.fade-in-section');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -263,31 +384,73 @@ Alongside content creation, I’m pursuing a Master of Science (Physics Honours)
                 }
             });
         }, { threshold: 0.1 });
+        sections.forEach(section => observer.observe(section));
 
-        sections.forEach(section => {
-            observer.observe(section);
-        });
+        // --- Contact Form Logic (Toggle & WhatsApp) ---
+        const btnGeneral = document.getElementById('btn-general');
+        const btnGuest = document.getElementById('btn-guest');
+        const textGeneral = document.getElementById('text-general');
+        const textGuest = document.getElementById('text-guest');
+        const guestTopicField = document.getElementById('guest-topic-field');
+        const generalMsgField = document.getElementById('general-msg-field');
+        
+        let contactType = 'general';
 
-        // --- WhatsApp Link Handler ---
-        const whatsappLink = document.getElementById('whatsappLink');
-        const userNameInput = document.getElementById('userNameInput');
+        function setGeneralMode() {
+            contactType = 'general';
+            // Styling Buttons
+            btnGeneral.classList.add('bg-white', 'text-primary-blue', 'shadow-sm');
+            btnGeneral.classList.remove('text-gray-500');
+            btnGuest.classList.remove('bg-white', 'text-primary-blue', 'shadow-sm');
+            btnGuest.classList.add('text-gray-500');
+            
+            // Show/Hide Fields & Text
+            textGeneral.classList.remove('hidden');
+            textGuest.classList.add('hidden');
+            guestTopicField.classList.add('hidden');
+            generalMsgField.classList.remove('hidden');
+        }
 
-        whatsappLink.addEventListener('click', (event) => {
-            event.preventDefault();
+        function setGuestMode() {
+            contactType = 'guest';
+            // Styling Buttons
+            btnGuest.classList.add('bg-white', 'text-primary-blue', 'shadow-sm');
+            btnGuest.classList.remove('text-gray-500');
+            btnGeneral.classList.remove('bg-white', 'text-primary-blue', 'shadow-sm');
+            btnGeneral.classList.add('text-gray-500');
 
-            let userName = userNameInput.value.trim();
-            if (userName === '') {
-                userName = '(name)';
+            // Show/Hide Fields & Text
+            textGuest.classList.remove('hidden');
+            textGeneral.classList.add('hidden');
+            guestTopicField.classList.remove('hidden');
+            // We keep the message field in both, but optional logic could change
+        }
+
+        btnGeneral.addEventListener('click', setGeneralMode);
+        btnGuest.addEventListener('click', setGuestMode);
+
+        // Handle Form Submit
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('userNameInput').value.trim();
+            const message = document.getElementById('messageInput').value.trim();
+            const topic = document.getElementById('topicInput').value.trim();
+            
+            let finalMessage = "";
+
+            if (contactType === 'guest') {
+                finalMessage = `Khamrimoo Tashi, my name is *${name}*.\n\nI am interested in being a *Guest* on The Tashi Show.\n\n*Topic:* ${topic}\n*Message:* ${message}`;
+            } else {
+                finalMessage = `Khamrimoo Tashi, my name is *${name}*.\n\n${message}`;
             }
 
-            const baseMessage = `Khamrimoo Tashi, ${userName} this side. I am interested in connecting with your team.`;
-            const encodedMessage = encodeURIComponent(baseMessage);
+            const encodedMessage = encodeURIComponent(finalMessage);
             const whatsappUrl = `https://wa.me/919832891697?text=${encodedMessage}`;
-
+            
             window.open(whatsappUrl, '_blank');
         });
-    </script>
 
+    </script>
 </body>
 </html>
-
