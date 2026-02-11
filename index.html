@@ -14,26 +14,16 @@
                     colors: {
                         'primary-blue': '#004BAC', 
                         'primary-blue-dark': '#003B8A', 
-                        'secondary-blue-light': '#F0F4F8',
-                        'text-dark': '#1F2937',
-                        'text-light': '#FFFFFF',
-                        'dark-bg': '#111827',
-                        'dark-card': '#1F2937',
-                        'dark-text': '#F3F4F6',
-                        'dark-subtext': '#9CA3AF',
                     },
                     fontFamily: {
                         'sans': ['Inter', 'sans-serif'],
                     },
                     keyframes: {
-                        float: {
-                          '0%, 100%': { transform: 'translateY(0px)' },
-                          '50%': { transform: 'translateY(-10px)' },
-                        },
-                        gradient: {
-                          '0%': { 'background-position': '0% 50%' },
-                          '50%': { 'background-position': '100% 50%' },
-                          '100%': { 'background-position': '0% 50%' },
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1) rotate(0deg)' },
+                            '33%': { transform: 'translate(300px, -150px) scale(1.5) rotate(45deg)' },
+                            '66%': { transform: 'translate(-300px, 150px) scale(0.6) rotate(-45deg)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1) rotate(0deg)' },
                         },
                         scroll: {
                           '0%': { transform: 'translateX(0)' },
@@ -41,8 +31,7 @@
                         }
                     },
                     animation: {
-                        float: 'float 6s ease-in-out infinite',
-                        gradient: 'gradient 10s ease infinite',
+                        blob: 'blob 15s infinite ease-in-out',
                         scroll: 'scroll 35s linear infinite',
                     }
                 }
@@ -50,31 +39,204 @@
         }
     </script>
     <style>
-        /* Custom Microphone Cursor */
+        /* Custom Pointy Cursor */
         body {
-            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='%23004BAC' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z'%3E%3C/path%3E%3Cpath d='M19 10v2a7 7 0 0 1-14 0v-2'%3E%3C/path%3E%3Cline x1='12' y1='19' x2='12' y2='23'%3E%3C/line%3E%3Cline x1='8' y1='23' x2='16' y2='23'%3E%3C/line%3E%3C/svg%3E") 16 16, auto;
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23004BAC' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z'%3E%3C/path%3E%3Cpath d='M13 13l6 6'%3E%3C/path%3E%3C/svg%3E") 2 2, auto;
         }
         
         a, button, input, select, textarea {
-            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='%23004BAC' stroke='%23004BAC' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z'%3E%3C/path%3E%3Cpath d='M19 10v2a7 7 0 0 1-14 0v-2'%3E%3C/path%3E%3Cline x1='12' y1='19' x2='12' y2='23'%3E%3C/line%3E%3Cline x1='8' y1='23' x2='16' y2='23'%3E%3C/line%3E%3C/svg%3E") 16 16, pointer;
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%23004BAC' stroke='%23004BAC' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z'%3E%3C/path%3E%3Cpath d='M13 13l6 6'%3E%3C/path%3E%3C/svg%3E") 2 2, pointer;
+        }
+
+        /* Lepcha-Inspired Weave Pattern - Lower Opacity */
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.03; /* Reduced opacity */
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23004BAC' fill-opacity='1' fill-rule='evenodd'%3E%3Cpath d='M0 20L20 0H40L20 20H0zM20 40L40 20H20L0 40H20z' /%3E%3C/g%3E%3C/svg%3E");
+            background-size: 60px 60px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .bg-pattern {
+                opacity: 0.03;
+                background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23FFFFFF' fill-opacity='1' fill-rule='evenodd'%3E%3Cpath d='M0 20L20 0H40L20 20H0zM20 40L40 20H20L0 40H20z' /%3E%3C/g%3E%3C/svg%3E");
+            }
+        }
+
+        /* Stronger Background Light */
+        #cursor-light {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 40%, rgba(255, 255, 255, 0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: overlay;
+            transition: opacity 0.3s;
+            opacity: 0.8;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            #cursor-light {
+                background: radial-gradient(circle, rgba(0, 100, 255, 0.25) 0%, rgba(0, 100, 255, 0) 70%);
+                mix-blend-mode: screen;
+            }
+        }
+
+        /* --- LIQUID GLASS CONTAINER (Transparent & Distorted) --- */
+        .liquid-glass {
+            position: relative;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.01); 
+            z-index: 10;
+            transition: all 0.3s ease-out;
+        }
+
+        .liquid-glass::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            border-radius: 30px;
+            box-shadow: 
+                inset 1px 1px 0px 0px rgba(255, 255, 255, 0.6), 
+                inset -1px -1px 0px 0px rgba(255, 255, 255, 0.2),
+                0 10px 40px -10px rgba(0,0,0,0.1); 
+            pointer-events: none;
+        }
+
+        .liquid-glass::after {
+            content: '';
+            position: absolute;
+            z-index: -1;
+            inset: 0;
+            border-radius: 30px;
+            backdrop-filter: blur(0px); 
+            -webkit-backdrop-filter: blur(0px);
+            filter: url(#container-glass); 
+            -webkit-filter: url(#container-glass);
+            overflow: hidden;
+            isolation: isolate;
+            pointer-events: none;
+        }
+
+        .liquid-glass:hover {
+            transform: translateY(-2px) scale(1.005);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        /* --- HEADER SPECIFIC FROSTED GLASS --- */
+        header.liquid-glass {
+             background: rgba(255, 255, 255, 0.15); /* Tinted */
+        }
+        header.liquid-glass::after {
+             backdrop-filter: blur(12px) !important; /* Frosted */
+             -webkit-backdrop-filter: blur(12px) !important;
+             filter: none !important; /* No liquid distortion on header for readability */
+             -webkit-filter: none !important;
+        }
+
+        /* --- FROSTED GLASS BUTTON (Heavy Blur & White Text) --- */
+        .glass-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            background: transparent;
+            border-radius: 9999px;
+            outline: none;
+            border: none;
+            z-index: 10;
+            transition: transform 0.1s;
+            
+            /* Text Styling */
+            color: white;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3); /* For visibility on light bg */
+            font-weight: 700;
+        }
+        
+        .glass-btn:active {
+            transform: scale(0.95);
+        }
+
+        .glass-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            border-radius: 9999px;
+            box-shadow: 
+                inset 2px 2px 0px -1px rgba(255, 255, 255, 0.9), 
+                inset -1px -1px 0px 0px rgba(255, 255, 255, 0.4),
+                0 4px 15px rgba(0,0,0,0.1);
+            background-color: rgba(255, 255, 255, 0.25); 
+            transition: background-color 0.2s;
+        }
+        
+        .glass-btn:hover::before {
+            background-color: rgba(255, 255, 255, 0.35);
+        }
+
+        .glass-btn::after {
+            content: '';
+            position: absolute;
+            z-index: -1;
+            inset: 0;
+            border-radius: 9999px;
+            backdrop-filter: blur(20px) saturate(1.8);
+            -webkit-backdrop-filter: blur(20px) saturate(1.8);
+            filter: url(#btn-glass);
+            -webkit-filter: url(#btn-glass);
+            overflow: hidden;
+            isolation: isolate;
+            pointer-events: none;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            header.liquid-glass {
+                 background: rgba(0, 0, 0, 0.2);
+            }
+            .liquid-glass::before {
+                box-shadow: inset 1px 1px 0px 0px rgba(255, 255, 255, 0.3), inset -1px -1px 0px 0px rgba(255, 255, 255, 0.05), 0 10px 40px -10px rgba(0,0,0,0.5);
+            }
+            .glass-btn::before {
+                box-shadow: inset 2px 2px 0px -1px rgba(255, 255, 255, 0.4), inset -1px -1px 0px 0px rgba(255, 255, 255, 0.1);
+                background-color: rgba(30, 41, 59, 0.4); 
+            }
+            .glass-btn:hover::before {
+                background-color: rgba(30, 41, 59, 0.6);
+            }
         }
 
         .fade-in-section {
             opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transform: translateY(30px) scale(0.98);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
         .fade-in-section.is-visible {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
         }
+
         .gradient-text {
-            background: linear-gradient(to right, #004BAC, #007BFF, #3498DB);
+            background: linear-gradient(135deg, #004BAC, #3498DB);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-size: 200% 200%;
-            animation: gradient 10s ease infinite;
         }
+
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -82,222 +244,281 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
-        /* Custom Toggle Switch */
-        .toggle-checkbox:checked {
-            right: 0;
-            border-color: #004BAC;
-        }
-        .toggle-checkbox:checked + .toggle-label {
-            background-color: #004BAC;
+        
+        .liquid-glass img, 
+        .liquid-glass iframe {
+            border-radius: 30px;
         }
     </style>
 </head>
-<body class="bg-secondary-blue-light text-text-dark font-sans dark:bg-dark-bg dark:text-dark-text">
+<body class="bg-[#F0F4F8] text-gray-900 font-sans dark:bg-[#0f172a] dark:text-gray-100 min-h-screen relative overflow-x-hidden selection:bg-primary-blue selection:text-white">
 
-    <!-- Cleaner Header -->
-    <header id="header" class="bg-white sticky top-0 z-50 transition-all duration-300 border-b border-gray-100 dark:bg-dark-card dark:border-gray-800">
-        <div class="container mx-auto px-6 h-20 flex justify-between items-center">
-            <a href="#" class="flex items-center gap-3 group">
-                <div class="relative overflow-hidden rounded-full w-10 h-10 md:w-12 md:h-12 border-2 border-transparent group-hover:border-primary-blue transition-all duration-300">
+    <!-- SVG Filters -->
+    <svg style="position: absolute; width: 0; height: 0; pointer-events: none;">
+        <defs>
+            <filter id="container-glass" x="0%" y="0%" width="100%" height="100%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.008 0.008" numOctaves="2" seed="92" result="noise" />
+                <feGaussianBlur in="noise" stdDeviation="0.02" result="blur" />
+                <feDisplacementMap in="SourceGraphic" in2="blur" scale="77" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+            
+            <filter id="btn-glass" x="0%" y="0%" width="100%" height="100%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" result="noise" />
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+        </defs>
+    </svg>
+
+    <!-- Cursor Following Light -->
+    <div id="cursor-light"></div>
+
+    <!-- Active Moving Background Blobs -->
+    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-blue-400 rounded-full mix-blend-multiply filter blur-[100px] opacity-40 animate-blob dark:bg-blue-800 dark:mix-blend-screen dark:opacity-30"></div>
+        <div class="absolute top-1/3 right-1/4 w-[600px] h-[600px] bg-purple-400 rounded-full mix-blend-multiply filter blur-[100px] opacity-40 animate-blob animation-delay-2000 dark:bg-purple-800 dark:mix-blend-screen dark:opacity-30"></div>
+        <div class="absolute -bottom-32 left-1/2 w-[600px] h-[600px] bg-indigo-400 rounded-full mix-blend-multiply filter blur-[100px] opacity-40 animate-blob animation-delay-4000 dark:bg-indigo-800 dark:mix-blend-screen dark:opacity-30"></div>
+        <!-- Lepcha Pattern Layer -->
+        <div class="bg-pattern"></div>
+    </div>
+
+    <!-- Floating Glass Header -->
+    <div class="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
+        <header id="header" class="liquid-glass px-6 py-2 flex justify-between items-center w-full max-w-4xl" style="height: 80px; border-radius: 9999px !important;">
+            <style>
+                header.liquid-glass::before, 
+                header.liquid-glass::after { 
+                    border-radius: 9999px !important; 
+                }
+            </style>
+            <a href="#" class="flex items-center gap-4 group active:scale-95 transition-transform duration-200 z-10">
+                <!-- App Icon Style Logo -->
+                <div class="relative overflow-hidden rounded-[14px] w-12 h-12 shadow-lg transform rotate-0 transition-transform group-hover:scale-105">
                      <img src="https://raw.githubusercontent.com/Sarup098/tts/main/tahi%20dp.jpg" alt="The Tashi Show Logo" class="object-cover w-full h-full">
                 </div>
-                <span class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white tracking-tight group-hover:text-primary-blue transition-colors">The Tashi Show</span>
+                <span class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">The Tashi Show</span>
             </a>
             
-            <nav class="hidden md:flex items-center gap-8">
-                <a href="#gallery" class="text-sm font-medium text-gray-600 hover:text-primary-blue transition-colors dark:text-gray-300 dark:hover:text-white">Mayal Lyang</a>
-                <a href="#clips" class="text-sm font-medium text-gray-600 hover:text-primary-blue transition-colors dark:text-gray-300 dark:hover:text-white">Clips</a>
-                <a href="#contact" class="text-sm font-medium text-gray-600 hover:text-primary-blue transition-colors dark:text-gray-300 dark:hover:text-white">Contact</a>
-                <a href="#about" class="text-sm font-medium text-gray-600 hover:text-primary-blue transition-colors dark:text-gray-300 dark:hover:text-white">About</a>
-                <a href="https://www.youtube.com/@TashiTseten-Lepcha/videos" target="_blank" rel="noopener noreferrer" class="bg-primary-blue text-white text-sm font-semibold py-2.5 px-6 rounded-full hover:bg-primary-blue-dark transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
-                    Watch Now
-                </a>
+            <nav class="hidden md:flex items-center gap-8 z-10">
+                <a href="#gallery" class="text-sm font-bold text-gray-800 dark:text-gray-200 hover:text-primary-blue transition-colors">Mayal Lyang</a>
+                <a href="#clips" class="text-sm font-bold text-gray-800 dark:text-gray-200 hover:text-primary-blue transition-colors">Clips</a>
+                <a href="#contact" class="text-sm font-bold text-gray-800 dark:text-gray-200 hover:text-primary-blue transition-colors">Contact</a>
+                <a href="#about" class="text-sm font-bold text-gray-800 dark:text-gray-200 hover:text-primary-blue transition-colors">About</a>
             </nav>
 
-            <!-- Mobile Menu Button -->
-            <button id="mobile-menu-button" class="md:hidden text-gray-700 dark:text-gray-200 focus:outline-none">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-            </button>
-        </div>
-        
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden px-6 pb-6 bg-white border-t border-gray-100 dark:bg-dark-card dark:border-gray-800 absolute w-full shadow-lg">
-            <div class="flex flex-col space-y-4 pt-4">
-                <a href="#gallery" class="text-gray-600 font-medium hover:text-primary-blue dark:text-gray-300">Mayal Lyang</a>
-                <a href="#clips" class="text-gray-600 font-medium hover:text-primary-blue dark:text-gray-300">Clips</a>
-                <a href="#contact" class="text-gray-600 font-medium hover:text-primary-blue dark:text-gray-300">Contact</a>
-                <a href="#about" class="text-gray-600 font-medium hover:text-primary-blue dark:text-gray-300">About</a>
-                <a href="https://www.youtube.com/@TashiTseten-Lepcha/videos" class="text-primary-blue font-bold">Watch All Episodes &rarr;</a>
-            </div>
-        </div>
-    </header>
+            <a href="https://www.youtube.com/@TashiTseten-Lepcha/videos" target="_blank" rel="noopener noreferrer" class="hidden md:flex glass-btn px-8 h-11 text-sm z-10">
+                Watch Now
+            </a>
 
-    <main class="container mx-auto px-6 py-8">
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden glass-btn w-12 h-12 p-0 z-10">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </header>
+    </div>
+    
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 z-40 bg-white/90 dark:bg-black/90 backdrop-blur-xl hidden opacity-0 transition-opacity duration-300 flex items-center justify-center">
+        <div class="flex flex-col space-y-8 text-center">
+            <a href="#gallery" class="text-3xl font-bold text-gray-800 dark:text-white active:scale-95 transition-transform">Mayal Lyang</a>
+            <a href="#clips" class="text-3xl font-bold text-gray-800 dark:text-white active:scale-95 transition-transform">Clips</a>
+            <a href="#contact" class="text-3xl font-bold text-gray-800 dark:text-white active:scale-95 transition-transform">Contact</a>
+            <a href="#about" class="text-3xl font-bold text-gray-800 dark:text-white active:scale-95 transition-transform">About</a>
+            <button id="close-menu" class="mt-8 glass-btn px-8 h-12 font-bold">Close Menu</button>
+        </div>
+    </div>
+
+    <main class="container mx-auto px-6 py-8 pt-40 relative z-10">
 
         <!-- Hero Section -->
-        <section class="flex flex-col-reverse lg:flex-row items-center gap-8 lg:gap-16 bg-white dark:bg-dark-card p-8 lg:p-12 rounded-2xl shadow-xl my-8 overflow-hidden">
-            <div class="lg:w-1/2 text-center lg:text-left">
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-text-dark dark:text-dark-text leading-tight mb-5">
-                    Welcome to <span class="gradient-text">The Tashi Show</span>
-                </h1>
-                <p class="text-lg text-gray-600 dark:text-dark-subtext mb-8 max-w-lg mx-auto lg:mx-0">
-                    Conversations from the heart. Stories from the roots.
-                </p>
-                <a href="#clips" class="inline-block bg-primary-blue text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-primary-blue-dark transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl shadow-primary-blue/40">
-                    Start Watching
-                </a>
+        <section class="flex flex-col-reverse lg:flex-row items-center gap-8 lg:gap-16 my-8">
+            <div class="lg:w-1/2 text-center lg:text-left fade-in-section">
+                <!-- Transparent Liquid Card -->
+                <div class="liquid-glass p-10 lg:p-14">
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 dark:text-white leading-tight mb-6 tracking-tight relative z-10">
+                        Welcome to <br><span class="gradient-text">The Tashi Show</span>
+                    </h1>
+                    <p class="text-lg text-gray-600 dark:text-gray-300 mb-10 max-w-lg mx-auto lg:mx-0 font-medium leading-relaxed relative z-10">
+                        Conversations from the heart. Stories from the roots. Experience the liquid flow of ideas.
+                    </p>
+                    <a href="#clips" class="relative z-10 glass-btn w-auto h-auto py-4 px-10 text-lg">
+                        Start Watching
+                    </a>
+                </div>
             </div>
-            <div class="lg:w-1/2 flex justify-center p-4">
-                <img src="https://raw.githubusercontent.com/Sarup098/tts/main/tashi%20show.png" alt="The Tashi Show Logo" class="rounded-2xl shadow-2xl w-full max-w-sm lg:max-w-md h-auto object-contain border-4 border-primary-blue animate-float">
+            <div class="lg:w-1/2 flex justify-center p-4 fade-in-section" style="transition-delay: 100ms;">
+                <div class="relative group">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-[30px] blur-xl opacity-30 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                    <img src="https://raw.githubusercontent.com/Sarup098/tts/main/tashi%20show.png" alt="The Tashi Show Logo" class="relative rounded-[30px] shadow-2xl w-full max-w-sm lg:max-w-md h-auto object-contain border border-white/20 animate-float">
+                </div>
             </div>
         </section>
 
         <!-- Gallery / Infinite Scroll Section -->
-        <section id="gallery" class="my-16 fade-in-section">
-            <h2 class="text-3xl lg:text-4xl font-bold text-text-dark dark:text-dark-text text-center mb-8">Mayal Lyang</h2>
+        <section id="gallery" class="my-24 fade-in-section">
+            <div class="liquid-glass p-8 lg:p-12 text-center mb-10">
+                <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2 relative z-10">Mayal Lyang</h2>
+            </div>
+            
             <div class="w-full inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)] py-8">
                 <!-- Scroll Content 1 -->
-                <ul class="flex items-center justify-center md:justify-start [&_li]:mx-4 [&_img]:max-w-none animate-scroll">
-                    <li><div class="w-64 h-80 rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-gray-700"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-12.jpg" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div></li>
-                    <li><div class="w-64 h-80 rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-gray-700"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-13%202.jpg" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div></li>
-                    <li><div class="w-64 h-80 rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-gray-700"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-13%203.jpg" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div></li>
-                    <li><div class="w-64 h-80 rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-gray-700"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-13.jpg" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div></li>
-                    <li><div class="w-64 h-80 rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-gray-700"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-14%202.jpg" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div></li>
-                    <li><div class="w-64 h-80 rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-gray-700"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-14%203.jpg" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div></li>
-                    <li><div class="w-64 h-80 rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-gray-700"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-14.jpg" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div></li>
+                <ul class="flex items-center justify-center md:justify-start [&_li]:mx-6 [&_img]:max-w-none animate-scroll">
+                    <li><div class="w-72 h-96 liquid-glass overflow-hidden shadow-lg p-3 cursor-pointer hover:scale-[1.02] transition-transform"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-12.jpg" class="w-full h-full object-cover shadow-sm"></div></li>
+                    <li><div class="w-72 h-96 liquid-glass overflow-hidden shadow-lg p-3 cursor-pointer hover:scale-[1.02] transition-transform"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-13%202.jpg" class="w-full h-full object-cover shadow-sm"></div></li>
+                    <li><div class="w-72 h-96 liquid-glass overflow-hidden shadow-lg p-3 cursor-pointer hover:scale-[1.02] transition-transform"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-13%203.jpg" class="w-full h-full object-cover shadow-sm"></div></li>
+                    <li><div class="w-72 h-96 liquid-glass overflow-hidden shadow-lg p-3 cursor-pointer hover:scale-[1.02] transition-transform"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-13.jpg" class="w-full h-full object-cover shadow-sm"></div></li>
+                    <li><div class="w-72 h-96 liquid-glass overflow-hidden shadow-lg p-3 cursor-pointer hover:scale-[1.02] transition-transform"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-14%202.jpg" class="w-full h-full object-cover shadow-sm"></div></li>
+                    <li><div class="w-72 h-96 liquid-glass overflow-hidden shadow-lg p-3 cursor-pointer hover:scale-[1.02] transition-transform"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-14%203.jpg" class="w-full h-full object-cover shadow-sm"></div></li>
+                    <li><div class="w-72 h-96 liquid-glass overflow-hidden shadow-lg p-3 cursor-pointer hover:scale-[1.02] transition-transform"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-14.jpg" class="w-full h-full object-cover shadow-sm"></div></li>
                 </ul>
                 <!-- Scroll Content 2 -->
-                <ul class="flex items-center justify-center md:justify-start [&_li]:mx-4 [&_img]:max-w-none animate-scroll" aria-hidden="true">
-                     <li><div class="w-64 h-80 rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-gray-700"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-12.jpg" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div></li>
-                    <li><div class="w-64 h-80 rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-gray-700"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-13%202.jpg" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div></li>
-                    <li><div class="w-64 h-80 rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-gray-700"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-13%203.jpg" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div></li>
-                    <li><div class="w-64 h-80 rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-gray-700"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-13.jpg" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div></li>
-                    <li><div class="w-64 h-80 rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-gray-700"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-14%202.jpg" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div></li>
-                    <li><div class="w-64 h-80 rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-gray-700"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-14%203.jpg" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div></li>
-                    <li><div class="w-64 h-80 rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-gray-700"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-14.jpg" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div></li>
+                <ul class="flex items-center justify-center md:justify-start [&_li]:mx-6 [&_img]:max-w-none animate-scroll" aria-hidden="true">
+                     <li><div class="w-72 h-96 liquid-glass overflow-hidden shadow-lg p-3 cursor-pointer hover:scale-[1.02] transition-transform"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-12.jpg" class="w-full h-full object-cover shadow-sm"></div></li>
+                    <li><div class="w-72 h-96 liquid-glass overflow-hidden shadow-lg p-3 cursor-pointer hover:scale-[1.02] transition-transform"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-13%202.jpg" class="w-full h-full object-cover shadow-sm"></div></li>
+                    <li><div class="w-72 h-96 liquid-glass overflow-hidden shadow-lg p-3 cursor-pointer hover:scale-[1.02] transition-transform"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-13%203.jpg" class="w-full h-full object-cover shadow-sm"></div></li>
+                    <li><div class="w-72 h-96 liquid-glass overflow-hidden shadow-lg p-3 cursor-pointer hover:scale-[1.02] transition-transform"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-13.jpg" class="w-full h-full object-cover shadow-sm"></div></li>
+                    <li><div class="w-72 h-96 liquid-glass overflow-hidden shadow-lg p-3 cursor-pointer hover:scale-[1.02] transition-transform"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-14%202.jpg" class="w-full h-full object-cover shadow-sm"></div></li>
+                    <li><div class="w-72 h-96 liquid-glass overflow-hidden shadow-lg p-3 cursor-pointer hover:scale-[1.02] transition-transform"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-14%203.jpg" class="w-full h-full object-cover shadow-sm"></div></li>
+                    <li><div class="w-72 h-96 liquid-glass overflow-hidden shadow-lg p-3 cursor-pointer hover:scale-[1.02] transition-transform"><img src="https://raw.githubusercontent.com/Sarup098/tts/main/PHOTO-2026-02-08-22-05-14.jpg" class="w-full h-full object-cover shadow-sm"></div></li>
                 </ul>
             </div>
-            <!-- Added Picture Credit -->
-            <p class="text-center text-sm font-medium text-gray-500 dark:text-gray-400 mt-4 italic">Picture credit: Miss Winona Lepcha</p>
+            <!-- Centered Credit Button -->
+            <div class="flex justify-center mt-12">
+                <span class="glass-btn px-8 h-12 text-sm font-medium italic cursor-default">
+                    Picture credit: Miss Winona Lepcha
+                </span>
+            </div>
         </section>
 
-        <!-- Featured Clips Section with FIXED Aspect Ratios -->
-        <section id="clips" class="my-16 fade-in-section">
-            <h2 class="text-3xl lg:text-4xl font-bold text-text-dark dark:text-dark-text text-center mb-12">Featured Clips</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
+        <!-- Featured Clips Section -->
+        <section id="clips" class="my-24 fade-in-section">
+            <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white">Featured Clips</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+                
                 <!-- Clip 1 -->
-                <div class="bg-white dark:bg-dark-card rounded-2xl shadow-xl overflow-hidden transition-all duration-300 group hover:shadow-2xl hover:-translate-y-2">
-                    <div class="relative w-full pt-[56.25%] overflow-hidden bg-gray-200">
-                        <iframe class="absolute top-0 left-0 w-full h-full transition-transform duration-300 group-hover:scale-105" src="https://www.youtube.com/embed/F3VRPQRegRI" title="Sikkim's Dark History" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <div class="liquid-glass overflow-hidden group hover:shadow-2xl hover:-translate-y-2 active:scale-[0.99] transition-all">
+                    <div class="relative w-full pt-[56.25%] overflow-hidden bg-gray-200 rounded-t-[30px] border-b border-white/20">
+                        <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/F3VRPQRegRI" title="Sikkim's Dark History" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
-                    <div class="p-6">
-                        <h3 class="font-bold text-lg text-text-dark dark:text-dark-text leading-tight">
-                            <a href="https://youtu.be/F3VRPQRegRI" target="_blank" rel="noopener noreferrer" class="group-hover:text-primary-blue transition-colors duration-300">
-                                Sikkim's Dark History | The Truth About Darjeeling | Ren Sonam Wangdi |TTS 14
-                            </a>
+                    <div class="p-8">
+                        <h3 class="font-bold text-xl text-gray-900 dark:text-white leading-tight mb-3">
+                             Sikkim's Dark History | The Truth About Darjeeling | Ren Sonam Wangdi |TTS 14
                         </h3>
+                        <a href="https://youtu.be/F3VRPQRegRI" target="_blank" class="inline-flex items-center text-primary-blue text-sm font-bold hover:underline">
+                            Watch on YouTube 
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </a>
                     </div>
                 </div>
 
-                <!-- Clip 2 (Updated Link) -->
-                <div class="bg-white dark:bg-dark-card rounded-2xl shadow-xl overflow-hidden transition-all duration-300 group hover:shadow-2xl hover:-translate-y-2">
-                    <div class="relative w-full pt-[56.25%] overflow-hidden bg-gray-200">
-                        <iframe class="absolute top-0 left-0 w-full h-full transition-transform duration-300 group-hover:scale-105" src="https://www.youtube.com/embed/jdhKDuwH4qU" title="Featured Episode" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <!-- Clip 2 -->
+                <div class="liquid-glass overflow-hidden group hover:shadow-2xl hover:-translate-y-2 active:scale-[0.99] transition-all">
+                    <div class="relative w-full pt-[56.25%] overflow-hidden bg-gray-200 rounded-t-[30px] border-b border-white/20">
+                        <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/jdhKDuwH4qU" title="Featured Episode" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
-                    <div class="p-6">
-                        <h3 class="font-bold text-lg text-text-dark dark:text-dark-text leading-tight">
-                            <a href="https://youtu.be/jdhKDuwH4qU" target="_blank" rel="noopener noreferrer" class="group-hover:text-primary-blue transition-colors duration-300">
-                                The Royal Legacy of Sikkim| Gyalsey Palden Gurmed Namgyal
-                            </a>
+                    <div class="p-8">
+                        <h3 class="font-bold text-xl text-gray-900 dark:text-white leading-tight mb-3">
+                            The Royal Legacy of Sikkim| Gyalsey Palden Gurmed Namgyal
                         </h3>
+                        <a href="https://youtu.be/jdhKDuwH4qU" target="_blank" class="inline-flex items-center text-primary-blue text-sm font-bold hover:underline">
+                            Watch on YouTube
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </a>
                     </div>
                 </div>
 
                 <!-- Clip 3 -->
-                <div class="bg-white dark:bg-dark-card rounded-2xl shadow-xl overflow-hidden transition-all duration-300 group hover:shadow-2xl hover:-translate-y-2">
-                    <div class="relative w-full pt-[56.25%] overflow-hidden bg-gray-200">
-                        <iframe class="absolute top-0 left-0 w-full h-full transition-transform duration-300 group-hover:scale-105" src="https://www.youtube.com/embed/RDGXBSPK8L4" title="The REAL Story" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <div class="liquid-glass overflow-hidden group hover:shadow-2xl hover:-translate-y-2 active:scale-[0.99] transition-all">
+                    <div class="relative w-full pt-[56.25%] overflow-hidden bg-gray-200 rounded-t-[30px] border-b border-white/20">
+                        <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/RDGXBSPK8L4" title="The REAL Story" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
-                    <div class="p-6">
-                        <h3 class="font-bold text-lg text-text-dark dark:text-dark-text leading-tight">
-                            <a href="https://youtu.be/RDGXBSPK8L4" target="_blank" rel="noopener noreferrer" class="group-hover:text-primary-blue transition-colors duration-300">
-                                The REAL Story Behind Sikkim's MLA Mr. Erung Tenzing Lepcha | TTS 17
-                            </a>
+                    <div class="p-8">
+                        <h3 class="font-bold text-xl text-gray-900 dark:text-white leading-tight mb-3">
+                            The REAL Story Behind Sikkim's MLA Mr. Erung Tenzing Lepcha | TTS 17
                         </h3>
+                        <a href="https://youtu.be/RDGXBSPK8L4" target="_blank" class="inline-flex items-center text-primary-blue text-sm font-bold hover:underline">
+                            Watch on YouTube
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </a>
                     </div>
                 </div>
 
-                <!-- Clip 4 (Updated Link) -->
-                <div class="bg-white dark:bg-dark-card rounded-2xl shadow-xl overflow-hidden transition-all duration-300 group hover:shadow-2xl hover:-translate-y-2">
-                    <div class="relative w-full pt-[56.25%] overflow-hidden bg-gray-200">
-                        <iframe class="absolute top-0 left-0 w-full h-full transition-transform duration-300 group-hover:scale-105" src="https://www.youtube.com/embed/JM3z5HxO8rQ" title="First lepcha IPS" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <!-- Clip 4 -->
+                <div class="liquid-glass overflow-hidden group hover:shadow-2xl hover:-translate-y-2 active:scale-[0.99] transition-all">
+                    <div class="relative w-full pt-[56.25%] overflow-hidden bg-gray-200 rounded-t-[30px] border-b border-white/20">
+                        <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/JM3z5HxO8rQ" title="Himalayan Hero" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
-                    <div class="p-6">
-                        <h3 class="font-bold text-lg text-text-dark dark:text-dark-text leading-tight">
-                            <a href="https://youtu.be/JM3z5HxO8rQ" target="_blank" rel="noopener noreferrer" class="group-hover:text-primary-blue transition-colors duration-300">
-                                First lepcha IPS Tenzing Loden Lepcha
-                            </a>
+                    <div class="p-8">
+                        <h3 class="font-bold text-xl text-gray-900 dark:text-white leading-tight mb-3">
+                            First lepcha IPS Tenzing Loden Lepcha
                         </h3>
+                        <a href="https://youtu.be/JM3z5HxO8rQ" target="_blank" class="inline-flex items-center text-primary-blue text-sm font-bold hover:underline">
+                            Watch on YouTube
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </a>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- CTA Section -->
-        <section class="text-center bg-gradient-to-br from-primary-blue to-primary-blue-dark text-white p-8 lg:p-16 rounded-2xl shadow-2xl my-16 fade-in-section">
-            <h2 class="text-3xl lg:text-4xl font-bold mb-4">Explore All Episodes</h2>
-            <p class="max-w-2xl mx-auto text-lg opacity-90 mb-8">
-                Don't miss out. Visit our YouTube channel to watch all episodes from one of the best individual podcasts in Sikkim.
-            </p>
-            <a href="https://www.youtube.com/@TashiTseten-Lepcha/videos" target="_blank" rel="noopener noreferrer" class="inline-block bg-white text-primary-blue font-bold py-3 px-8 rounded-lg text-lg hover:bg-gray-200 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl shadow-lg">
-                Go to Channel
-            </a>
+        <section class="liquid-glass p-12 lg:p-20 my-24 text-center relative overflow-hidden fade-in-section">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent pointer-events-none"></div>
+            <div class="relative z-10">
+                <h2 class="text-3xl lg:text-5xl font-bold mb-6 text-gray-900 dark:text-white">Explore All Episodes</h2>
+                <p class="max-w-2xl mx-auto text-xl opacity-90 mb-10 text-gray-600 dark:text-gray-300">
+                    Don't miss out. Visit our YouTube channel to watch all episodes from one of the best individual podcasts in Sikkim.
+                </p>
+                <a href="https://www.youtube.com/@TashiTseten-Lepcha/videos" target="_blank" rel="noopener noreferrer" class="glass-btn w-auto h-auto py-4 px-12 text-lg">
+                    Go to Channel
+                </a>
+            </div>
         </section>
         
         <!-- Contact Section -->
-        <section id="contact" class="my-16 fade-in-section">
-            <div class="bg-white dark:bg-dark-card p-8 lg:p-12 rounded-2xl shadow-xl max-w-5xl mx-auto">
-                <div class="text-center mb-10">
-                    <h2 class="text-3xl lg:text-4xl font-bold text-text-dark dark:text-dark-text mb-3">Get Involved</h2>
-                    <p class="text-gray-600 dark:text-dark-subtext">Choose how you'd like to connect with The Tashi Show.</p>
+        <section id="contact" class="my-24 fade-in-section">
+            <div class="liquid-glass p-8 lg:p-16 max-w-5xl mx-auto shadow-2xl">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-3">Get Involved</h2>
+                    <p class="text-gray-600 dark:text-gray-400">Choose how you'd like to connect with The Tashi Show.</p>
                 </div>
 
                 <!-- Purpose Switcher -->
-                <div class="flex justify-center mb-8">
-                    <div class="bg-gray-100 dark:bg-gray-800 p-1.5 rounded-xl inline-flex relative shadow-inner">
-                        <button id="btn-general" class="px-6 py-2.5 rounded-lg text-sm font-bold transition-all duration-300 bg-white text-primary-blue shadow-sm z-10 w-40">General Message</button>
-                        <button id="btn-guest" class="px-6 py-2.5 rounded-lg text-sm font-bold text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-all duration-300 z-10 w-40">Be a Guest</button>
+                <div class="flex justify-center mb-10">
+                    <div class="bg-gray-200/50 dark:bg-black/30 p-1.5 rounded-[9999px] inline-flex relative backdrop-blur-md border border-white/20">
+                        <!-- Initial State: General is Glass, Guest is Text -->
+                        <button id="btn-general" class="glass-btn px-8 h-12 text-sm rounded-full transition-all">General Message</button>
+                        <button id="btn-guest" class="px-8 h-12 text-sm font-bold text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white transition-all rounded-full">Be a Guest</button>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
                     <!-- Text Side -->
-                    <div class="hidden md:block">
-                        <div id="text-general" class="transition-all duration-300">
-                            <h3 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Say Hello!</h3>
-                            <p class="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                    <div class="hidden md:block pt-4">
+                        <div id="text-general" class="transition-all duration-500 transform translate-y-0 opacity-100">
+                            <h3 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Say Hello!</h3>
+                            <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed text-lg">
                                 Want to talk about the latest episode? Have a suggestion for a future topic? Or just want to send some love? We love hearing from our listeners.
                             </p>
-                            <div class="p-4 bg-secondary-blue-light dark:bg-gray-800 rounded-lg border-l-4 border-primary-blue">
-                                <p class="text-sm font-medium italic text-gray-700 dark:text-gray-300">"Stories are the bridge between you and me."</p>
+                            <div class="p-6 bg-blue-50/50 dark:bg-blue-900/20 rounded-[30px] border border-blue-100 dark:border-blue-800/50 shadow-inner">
+                                <p class="text-base font-medium italic text-gray-700 dark:text-gray-300">"Stories are the bridge between you and me."</p>
                             </div>
                         </div>
-                        <div id="text-guest" class="hidden transition-all duration-300">
-                            <h3 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Share Your Story</h3>
-                            <p class="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                        <div id="text-guest" class="hidden transition-all duration-500 transform translate-y-4 opacity-0">
+                            <h3 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Share Your Story</h3>
+                            <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed text-lg">
                                 Do you have a unique perspective on Sikkim's history, culture, or modern life? We are always looking for voices that need to be heard.
                             </p>
-                            <ul class="space-y-2 mb-4">
-                                <li class="flex items-center text-sm text-gray-600 dark:text-gray-400">
-                                    <svg class="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <ul class="space-y-4">
+                                <li class="flex items-center text-gray-700 dark:text-gray-300 p-3 rounded-[30px] bg-gray-50/50 dark:bg-gray-800/30">
+                                    <span class="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-3 font-bold">✓</span>
                                     Share your lived experiences
                                 </li>
-                                <li class="flex items-center text-sm text-gray-600 dark:text-gray-400">
-                                    <svg class="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <li class="flex items-center text-gray-700 dark:text-gray-300 p-3 rounded-[30px] bg-gray-50/50 dark:bg-gray-800/30">
+                                    <span class="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-3 font-bold">✓</span>
                                     Highlight community issues
                                 </li>
-                                <li class="flex items-center text-sm text-gray-600 dark:text-gray-400">
-                                    <svg class="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <li class="flex items-center text-gray-700 dark:text-gray-300 p-3 rounded-[30px] bg-gray-50/50 dark:bg-gray-800/30">
+                                    <span class="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-3 font-bold">✓</span>
                                     Inspire the next generation
                                 </li>
                             </ul>
@@ -305,26 +526,27 @@
                     </div>
 
                     <!-- Form Side -->
-                    <form id="contactForm" class="flex flex-col gap-4">
-                        <div>
-                            <label for="userNameInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Your Name</label>
-                            <input type="text" id="userNameInput" placeholder="Enter your name" class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-blue focus:border-transparent outline-none transition-all" required />
+                    <form id="contactForm" class="flex flex-col gap-6">
+                        <div class="group">
+                            <label for="userNameInput" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 ml-1 uppercase tracking-wide opacity-80">Your Name</label>
+                            <input type="text" id="userNameInput" placeholder="Enter your name" class="w-full px-5 py-4 bg-white/30 dark:bg-black/20 border border-gray-200 dark:border-gray-700 rounded-[30px] focus:ring-2 focus:ring-primary-blue focus:border-transparent outline-none transition-all hover:bg-white/50 dark:hover:bg-black/30 backdrop-blur-none" required />
                         </div>
 
                         <!-- Extra Field for Guest (Hidden by default) -->
-                        <div id="guest-topic-field" class="hidden">
-                            <label for="topicInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">What would you like to talk about?</label>
-                            <input type="text" id="topicInput" placeholder="E.g., History of Dzongu, Local Art..." class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-blue focus:border-transparent outline-none transition-all" />
+                        <div id="guest-topic-field" class="hidden group">
+                            <label for="topicInput" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 ml-1 uppercase tracking-wide opacity-80">What would you like to talk about?</label>
+                            <input type="text" id="topicInput" placeholder="E.g., History of Dzongu, Local Art..." class="w-full px-5 py-4 bg-white/30 dark:bg-black/20 border border-gray-200 dark:border-gray-700 rounded-[30px] focus:ring-2 focus:ring-primary-blue focus:border-transparent outline-none transition-all hover:bg-white/50 dark:hover:bg-black/30 backdrop-blur-none" />
                         </div>
                         
                         <!-- General Message Field -->
-                        <div id="general-msg-field">
-                            <label for="messageInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Message</label>
-                            <textarea id="messageInput" rows="3" placeholder="Type your message here..." class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-blue focus:border-transparent outline-none transition-all"></textarea>
+                        <div id="general-msg-field" class="group">
+                            <label for="messageInput" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 ml-1 uppercase tracking-wide opacity-80">Message</label>
+                            <textarea id="messageInput" rows="4" placeholder="Type your message here..." class="w-full px-5 py-4 bg-white/30 dark:bg-black/20 border border-gray-200 dark:border-gray-700 rounded-[30px] focus:ring-2 focus:ring-primary-blue focus:border-transparent outline-none transition-all hover:bg-white/50 dark:hover:bg-black/30 resize-none backdrop-blur-none"></textarea>
                         </div>
 
-                        <button type="submit" class="mt-2 w-full flex items-center justify-center gap-2 bg-green-500 text-white font-bold py-3.5 px-6 rounded-lg text-lg hover:bg-green-600 transition-all duration-300 shadow-lg hover:shadow-green-500/30 transform hover:-translate-y-1">
-                            Send via WhatsApp
+                        <!-- Fixed WhatsApp Button (Matches Blue Theme) -->
+                        <button type="submit" class="mt-4 w-full flex items-center justify-center gap-2 glass-btn h-auto py-4 px-6 text-lg">
+                            <span>Send via WhatsApp</span>
                         </button>
                     </form>
                 </div>
@@ -332,48 +554,65 @@
         </section>
 
         <!-- About Section (Moved to Bottom) -->
-        <section id="about" class="text-center bg-white dark:bg-dark-card p-8 lg:p-16 rounded-2xl shadow-xl my-16 fade-in-section">
-            <h2 class="text-3xl lg:text-4xl font-bold text-text-dark dark:text-dark-text mb-6">About Me</h2>
-            <div class="max-w-3xl mx-auto text-gray-700 dark:text-dark-subtext leading-relaxed text-lg mb-10 space-y-4">
-                <p class="font-bold text-primary-blue text-xl">Tashi Tseten Lepcha</p>
-                <p class="font-semibold text-sm uppercase tracking-wide opacity-70">Podcaster • Science Student • Storyteller from Dzongu</p>
+        <section id="about" class="liquid-glass p-10 lg:p-20 text-center my-16 fade-in-section relative overflow-hidden group">
+             <!-- Decorative elements -->
+             <div class="absolute top-0 right-0 w-64 h-64 bg-blue-400/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-blue-400/20 transition-all duration-700"></div>
+             <div class="absolute bottom-0 left-0 w-64 h-64 bg-indigo-400/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 group-hover:bg-indigo-400/20 transition-all duration-700"></div>
+             
+            <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-8 relative z-10">About Me</h2>
+            <div class="max-w-3xl mx-auto text-gray-700 dark:text-gray-300 leading-relaxed text-lg mb-4 space-y-6 relative z-10">
+                <p class="font-bold text-primary-blue text-2xl">Hey Amigos 👋</p>
                 <p>
-                    I’m Tashi Tseten Lepcha, a podcaster and content creator from Lum, Dzongu, with a deep respect for stories, culture, and ideas that shape who we are. Through my work, I try to create thoughtful conversations—especially around history, identity, and lived experiences—while learning from the people and voices I encounter along the way.
+                    My name is Tashi Tseten Lepcha, son of Sonam Pintso Lepcha and Chuden Lepcha, and I have a sibling named Tseten Tashi Lepcha.
                 </p>
                 <p>
-                    I’m grateful to have a growing community of listeners and viewers, with 3.2K+ subscribers on YouTube, 16K followers on Facebook, and 3K on Instagram. Their support keeps me motivated to listen more carefully and share more responsibly.
+                    I come from Sikkim, from a small and beautiful village called Lum, nestled quietly in the valleys of Dzongu—a place that has shaped my roots, my values, and my way of seeing the world.
                 </p>
+                <p>
+                    I am a student, currently pursuing a Master of Science in Physics. Alongside science, I’ve always carried a deep curiosity for history. I’ve been fascinated by stories that time has slowly buried—truths left unspoken, memories covered in dust, waiting to be rediscovered.
+                </p>
+                <p>
+                    That curiosity is what led me to begin this podcast journey. I genuinely enjoy listening to people—well, not everyone 😄—but those whose words carry meaning, experience, and value. Conversations like these inspire me, teach me, and remind me why stories matter.
+                </p>
+                <p>
+                    Thank you for being here and for sharing a part of this journey with me.
+                </p>
+                <p class="font-semibold text-xl text-primary-blue mt-4">Much love 🤍</p>
             </div>
         </section>
 
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-50 border-t border-gray-200 dark:bg-dark-card dark:border-gray-800 text-center py-8">
+    <footer class="liquid-glass mt-16 py-8 text-center relative z-10" style="border-radius: 30px 30px 0 0 !important; animation: none;">
         <p class="font-semibold text-gray-600 dark:text-gray-400">&copy; 2026 The Tashi Show. All rights reserved.</p>
     </footer>
 
     <script>
-        // --- Dynamic Header Shadow on Scroll ---
-        const header = document.getElementById('header');
-        window.onscroll = function() {
-            if (window.scrollY > 20) {
-                header.classList.add('shadow-md');
-            } else {
-                header.classList.remove('shadow-md');
-            }
-        };
-
         // --- Mobile Menu Toggle ---
         const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const closeMenuButton = document.getElementById('close-menu');
         const mobileMenu = document.getElementById('mobile-menu');
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
+
+        function toggleMenu() {
+            if (mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.remove('hidden');
+                setTimeout(() => {
+                    mobileMenu.classList.remove('opacity-0');
+                }, 10);
+            } else {
+                mobileMenu.classList.add('opacity-0');
+                setTimeout(() => {
+                    mobileMenu.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        mobileMenuButton.addEventListener('click', toggleMenu);
+        closeMenuButton.addEventListener('click', toggleMenu);
+        
         document.querySelectorAll('#mobile-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
+            link.addEventListener('click', toggleMenu);
         });
 
         // --- Fade In Animation ---
@@ -388,6 +627,31 @@
         }, { threshold: 0.1 });
         sections.forEach(section => observer.observe(section));
 
+        // --- Background Light Follower ---
+        const cursorLight = document.getElementById('cursor-light');
+        let mouseX = 0, mouseY = 0;
+        let lightX = 0, lightY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateLight() {
+            // Easing for smooth movement
+            const dx = mouseX - lightX;
+            const dy = mouseY - lightY;
+            
+            lightX += dx * 0.1;
+            lightY += dy * 0.1;
+            
+            cursorLight.style.left = `${lightX}px`;
+            cursorLight.style.top = `${lightY}px`;
+            
+            requestAnimationFrame(animateLight);
+        }
+        animateLight();
+
         // --- Contact Form Logic (Toggle & WhatsApp) ---
         const btnGeneral = document.getElementById('btn-general');
         const btnGuest = document.getElementById('btn-guest');
@@ -400,32 +664,50 @@
 
         function setGeneralMode() {
             contactType = 'general';
-            // Styling Buttons
-            btnGeneral.classList.add('bg-white', 'text-primary-blue', 'shadow-sm');
-            btnGeneral.classList.remove('text-gray-500');
-            btnGuest.classList.remove('bg-white', 'text-primary-blue', 'shadow-sm');
-            btnGuest.classList.add('text-gray-500');
+            
+            // Active State for General (Make it Glass)
+            btnGeneral.className = "glass-btn px-8 h-12 text-sm rounded-full transition-all";
+            
+            // Inactive State for Guest (Make it Text)
+            btnGuest.className = "px-8 h-12 text-sm font-bold text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white transition-all rounded-full";
             
             // Show/Hide Fields & Text
             textGeneral.classList.remove('hidden');
-            textGuest.classList.add('hidden');
+            setTimeout(() => {
+                textGeneral.classList.remove('opacity-0', 'translate-y-4');
+                textGuest.classList.add('opacity-0', 'translate-y-4');
+            }, 10);
+            
+            setTimeout(() => {
+                 textGuest.classList.add('hidden');
+            }, 300);
+
             guestTopicField.classList.add('hidden');
             generalMsgField.classList.remove('hidden');
         }
 
         function setGuestMode() {
             contactType = 'guest';
-            // Styling Buttons
-            btnGuest.classList.add('bg-white', 'text-primary-blue', 'shadow-sm');
-            btnGuest.classList.remove('text-gray-500');
-            btnGeneral.classList.remove('bg-white', 'text-primary-blue', 'shadow-sm');
-            btnGeneral.classList.add('text-gray-500');
+
+            // Active State for Guest (Make it Glass)
+            btnGuest.className = "glass-btn px-8 h-12 text-sm rounded-full transition-all";
+
+            // Inactive State for General (Make it Text)
+            btnGeneral.className = "px-8 h-12 text-sm font-bold text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white transition-all rounded-full";
 
             // Show/Hide Fields & Text
             textGuest.classList.remove('hidden');
-            textGeneral.classList.add('hidden');
+            setTimeout(() => {
+                textGuest.classList.remove('opacity-0', 'translate-y-4');
+                textGeneral.classList.add('opacity-0', 'translate-y-4');
+            }, 10);
+            
+             setTimeout(() => {
+                 textGeneral.classList.add('hidden');
+            }, 300);
+            
             guestTopicField.classList.remove('hidden');
-            // We keep the message field in both, but optional logic could change
+            // We keep the message field in both
         }
 
         btnGeneral.addEventListener('click', setGeneralMode);
